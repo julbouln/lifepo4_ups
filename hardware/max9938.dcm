@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP MAX9938
+D High-Side Measurement Current Shunt Monitor, 36V, SOT-23-5
+K current sense shunt monitor
+F http://www.ti.com/lit/ds/symlink/ina138.pdf
+$ENDCMP
+#
+#End Doc Library

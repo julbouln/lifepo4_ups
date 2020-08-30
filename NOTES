@@ -1,0 +1,40 @@
+Shutdown current
+MAX9938 Iq 1uA * 3.2V = 3.2uW
+MCP1700 Iq 1.6uA * 3.2V = 5.12uW
+LTC4040 Iq 4uA * 3.2V = 12.8uW
+STM32F0 Iq stop mode = 14.5uA * 2.5V = 36.25uW
+(STM32F0 Iq stop mode = 3.1uA * 2.5V = 7.75uW)
+
+VBAT monitor voltage divider leakage = 3.2/((1000+470.0)*1000) * 1000 * 1000 = 2.2uA * 3.2 = 7.04uW
+
+3.2 + 5.12 + 12.8 + 36.25 + 7.04 = 64.41uW = 0.07mW
+
+19200/0.07/24/365 = 31 years
+
+Run current
+LTC4040 Iq 570uA + 70uA = 640uA*3.2 = 2048uW = 2.05mW
+STM32F0 Iq 21.9mA * 2.5 = 54.75mW
+
+2.5 + 54.75 = 57.25
+
+19200/56.25 = 14 days
+
+mode of operations
+
+on stm32 boot
+- enable LTC4040 (BSTOFF/CHTOFF LOW)
+- launch timer 15 minutes
+
+on stm32 running
+- if EN0 (eg: power button) or EN1 (eg: SBC keep alive) or PFO HIGH (charger connected), extend timer
+- if timer expire SHUTDOWN pin HIGH, wait 1 minutes then
+	- disable LTC4040 (BSTOFF/CHTOFF FLOAT)
+	- stm32 go to shutdown mode
+
+on stm32 leave shutted down
+- enable LTC4040 (BSTOFF/CHTOFF LOW)
+- enable switch (PWR_EN HIGH)
+- launch timer 15 minutes
+
+on stm32 shutted down
+- if EN or VIN HIGH, go to running mode

@@ -1,0 +1,5 @@
+(sym_lib_table
+  (lib (name ltc4040)(type Legacy)(uri ${KIPRJMOD}/ltc4040.lib)(options "")(descr ""))
+  (lib (name max9938)(type Legacy)(uri ${KIPRJMOD}/max9938.lib)(options "")(descr ""))
+  (lib (name lifepo4_mini_psu-rescue)(type Legacy)(uri ${KIPRJMOD}/lifepo4_mini_psu-rescue.lib)(options "")(descr ""))
+)
