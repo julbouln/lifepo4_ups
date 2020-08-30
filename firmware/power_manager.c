@@ -222,8 +222,8 @@ void clock_setup(void)
 	crs_autotrim_usb_enable();
 	rcc_set_usbclk_source(RCC_HSI48);
 #else
-//	rcc_clock_setup_in_hsi_out_48mhz();
-	rcc_clock_setup_in_hsi_out_8mhz();
+	rcc_clock_setup_in_hsi_out_48mhz();
+//	rcc_clock_setup_in_hsi_out_8mhz();
 #endif
 
 
@@ -389,8 +389,9 @@ void power_down() {
 	// wait 20 seconds for raspberry pi to shutdown
 	wait(SHUTDOWN_WAIT_SEC * 1000);
 
-	charge_disable();
-	boost_disable();
+	// needed for proper standby mode ?
+	charge_enable();
+	boost_enable();
 
 	// enter in standby mode
 	standby();
