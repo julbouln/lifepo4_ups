@@ -1,8 +1,10 @@
 #include <libopencm3/stm32/gpio.h>
 
 #include "cmd.h"
+#include "power.h"
 #include "gauge.h"
 #include "config.h"
+#include "pwm.h"
 
 void cmd_parse(char *recv, uint8_t recv_len, uint8_t *send, uint8_t *send_len)
 {
@@ -65,7 +67,8 @@ void cmd_parse(char *recv, uint8_t recv_len, uint8_t *send, uint8_t *send_len)
 		}
 		break;
 	case CMD_BAT_G: {
-		float cur_bat_state = gauge_bat_v();
+		// add voltage drop from A sense, connector and internal battery resistor
+		float cur_bat_state = gauge_bat_v() + gauge_bat_a()*(0.01 + 0.05);
 		
 		send[0] = recv[0];
 		send[1] = gauge_bat_percent(cur_bat_state);
@@ -73,12 +76,12 @@ void cmd_parse(char *recv, uint8_t recv_len, uint8_t *send, uint8_t *send_len)
 		*send_len = 2;
 		}
 		break;
-	case CMD_CTL: // LED MODE(2) | BOOST(1) | CHRG(1)
+	case CMD_CTL: // LED(1) | BOOST(1) | CHRG(1)
 		send[0] = recv[0];
 		if(recv_len > 1) {
 			uint8_t chrg = recv[1] & 0b1;
 			uint8_t boost = (recv[1] >> 1) & 0b1;
-			uint8_t led_mode = (recv[1] >> 2) & 0b11;
+			uint8_t led = (recv[1] >> 2) & 0b1;
 
 			if(chrg)
 				charge_enable();
@@ -90,6 +93,20 @@ void cmd_parse(char *recv, uint8_t recv_len, uint8_t *send, uint8_t *send_len)
 			else
 				boost_disable();
 
+			/*
+			if(led)
+				led_enable();
+			else
+				led_disable();
+			*/
+
+			/*
+			if(led) {
+				led_set_mode(LED_MODE_ON);
+			} else {
+				led_set_mode(LED_MODE_OFF);
+			}
+			*/
 
 			send[1] = recv[1];
 

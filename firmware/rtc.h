@@ -48,5 +48,6 @@ struct rtc_alarm {
 void rtc_read_calendar(struct rtc_time *time, struct rtc_date *date);
 void rtc_set_alarm(struct rtc_alarm *alarm);
 void rtc_disable_alarm(void);
+void rtc_setup(void);
 
 #endif /* RTC_UTILS_H */

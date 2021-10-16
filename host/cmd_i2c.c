@@ -96,6 +96,13 @@ int dump(int f) {
 		printf("lifepo4 PSU INPUT A ... ");
 		i2c_xfer(f, in, out, 4);
 		printf("INP A: %0.2f\n", (out[2] + out[3] / 10.0 + out[4] / 100.0));
+
+		in[0] = CMD_BAT_G;
+
+		printf("lifepo4 PSU BAT G ... ");
+		i2c_xfer(f, in, out, 2);
+		printf("BAT G: %d\n", out[2]);
+
 	}
 
 }
@@ -109,7 +116,7 @@ int main(int argc, char *argv[]) {
 
 
 	//----- OPEN THE I2C BUS -----
-	char *filename = (char*)"/dev/i2c-1";
+	char *filename = (char*)"/dev/i2c-2";
 	if ((file_i2c = open(filename, O_RDWR)) < 0)
 	{
 		//ERROR HANDLING: you can check errno to see what went wrong

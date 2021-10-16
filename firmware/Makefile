@@ -1,7 +1,7 @@
 DEVICE          = stm32f042f6
 #DEVICE          = stm32f070f6
 OPENCM3_DIR     = ../libopencm3
-OBJS            += rtc.o pwm.o i2c.o usart.o usb.o power_manager.o gauge.o cmd.o
+OBJS            += rtc.o adc.o pwm.o power.o i2c.o usart.o usb.o gauge.o cmd.o ups.o
 
 CFLAGS          += -Os -ggdb3
 CPPFLAGS		+= -MD
@@ -16,7 +16,7 @@ include $(OPENCM3_DIR)/mk/gcc-config.mk
 all: ups.elf ups.hex
 
 clean:
-	$(Q)$(RM) -rf ups.* *.o *.d generated*.ld
+	$(Q)$(RM) -rf ups.elf ups.hex ups.bin *.o *.d generated*.ld
 
 include $(OPENCM3_DIR)/mk/genlink-rules.mk
 include $(OPENCM3_DIR)/mk/gcc-rules.mk

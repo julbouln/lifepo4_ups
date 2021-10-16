@@ -118,5 +118,21 @@ void rtc_set_alarm(struct rtc_alarm *alarm)
 	RTC_CR |= RTC_CR_ALRAIE | RTC_CR_ALRAE;
 
 	rtc_lock();
-
 }
+
+void rtc_setup(void)
+{
+	/* reset RTC */
+	rcc_periph_reset_pulse(RST_BACKUPDOMAIN);
+
+	/* enable LSI clock */
+	rcc_osc_on(RCC_LSI);
+	rcc_wait_for_osc_ready(RCC_LSI);
+
+	/* select LSI clock for RTC */
+	rtc_unlock();
+	rcc_set_rtc_clock_source(RCC_LSI);
+	rcc_enable_rtc_clock();
+	rtc_lock();
+}
+

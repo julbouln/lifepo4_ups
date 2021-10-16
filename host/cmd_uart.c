@@ -149,7 +149,7 @@ int main(int argc, char *argv[])
     }
     /*baudrate 115200, 8 bits, no parity, 1 stop bit */
     set_interface_attribs(fd, B115200);
-    //set_mincount(fd, 0);                /* set to pure timed read */
+    //set_mincount(fd, 0); /* set to pure timed read */
 
 
     if(argc > 1) {

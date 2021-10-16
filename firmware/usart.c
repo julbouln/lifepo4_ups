@@ -28,7 +28,7 @@ void usart_setup(void)
 	// Enable interrupts for tx/rx
 	nvic_enable_irq(NVIC_USART1_IRQ);
   	usart_enable_rx_interrupt(USART1);
-//  	usart_enable_tx_interrupt(USART1);
+	// usart_enable_tx_interrupt(USART1);
 }
 
 uint8_t rx_len = 0;
